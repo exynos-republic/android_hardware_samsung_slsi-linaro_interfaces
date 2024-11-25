@@ -1,0 +1,17 @@
+package vendor.samsung.hardware.gnss@1.0;
+
+/**
+ * This interface is used by the GNSS HAL to request Lppe location information.
+ */
+interface ISlsiGnssLppeServiceCallback {
+   /**
+    * Callback to request the client to Location information. The client should
+    * inject location information to gpsd.
+    */
+    injectLppeServiceLPPeComIECapabilityRequest();
+    injectLppeServiceNLPRequestCb(uint16_t resp_time);
+    injectLppeServiceUBPCapabilityRequest();
+    injectLppeServiceUBPInfoRequest(uint16_t resp_time);
+    injectLppeServiceWIFICapabilityRequest();
+    injectLppeServiceWIFIScanRequest(uint16_t resp_time);
+};

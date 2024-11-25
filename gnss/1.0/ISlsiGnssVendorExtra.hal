@@ -1,0 +1,18 @@
+
+
+package vendor.samsung.hardware.gnss@1.0;
+
+import ISlsiGnssVendorExtraCallback;
+
+interface ISlsiGnssVendorExtra {
+    setCallback(ISlsiGnssVendorExtraCallback callback);
+
+    set_supl_host_ip(string resolvedIp);
+
+    /**
+     * This method decides whether to send debug data to platform.
+     * If 'enable' is TRUE, GNSS will start to send debug data to platform;
+     * otherwise, GNSS will stop to send debug data to platform
+     */
+    getDebugData(bool enable);
+};
