@@ -1,0 +1,100 @@
+package vendor.samsung.hardware.gnss@1.0;
+import ISlsiGnssLppeServiceCallback;
+
+/**
+ * This interface is used by the GNSS HAL to request Lppe location information.
+ */
+interface ISlsiGnssLppeService {
+    /**
+     * Opens the LppeService interface and provides the callback routines
+     * to the implementation of this interface.
+     *
+     * @param callback Handle to the ISlsiGnssLppeServiceCallback interface.
+     *
+     * @return success True if the operation is successful.
+     */
+    setCallback(ISlsiGnssLppeServiceCallback callback) generates (bool success);
+
+
+    enum LPPe_WLAN_Error_Type : uint8_t
+    {
+        LPPe_WLAN_NOT_SUPPORT = 1,
+        LPPe_WLAN_undefined,
+        LPPe_WLAN_requestedMeaNotAvailable,
+        LPPe_WLAN_notAllrequestedMeasPossible,
+        LPPe_WLAN_apSSIDnotAvailable,
+        LPPe_WLAN_apSNMeasurementNotPossible,
+        LPPe_WLAN_apDevTypeNotAvailable,
+        LPPe_WLAN_apPhyTypeNotAvailable,
+        LPPe_WLAN_apRSSIMeasurementNotPossible,
+        LPPe_WLAN_apChanFreqNotAvailable,
+        LPPe_WLAN_apRTDMeasurementNotPossible,
+        LPPe_WLAN_ueTPNotAvailable,
+        LPPe_WLAN_ueAGNotAvailable,
+        LPPe_WLAN_apRecLocNotAvailable,
+        LPPe_WLAN_non_servingMeasurementsNotAvailable,
+        LPPe_WLAN_historicMeasurementsNotAvailable,
+        LPPe_WLAN_apTPNotAvailable,
+        LPPe_WLAN_apAGNotAvailable,
+        LPPe_WLAN_ueSNNotAvailable,
+        LPPe_WLAN_ueRSSINotAvailable,
+        LPPe_WLAN_ocNotAvailable,
+        LPPe_WLAN_ueMACAddressNotAvailable,
+    };
+
+    enum LPPe_WLAN_AP_LOC : uint32_t
+    {
+        latitudeResolution = 1,     // BIT STRING (SIZE (6))
+        latitude,                   // BIT STRING (SIZE (34))
+        longitudeResolution,        // BIT STRING (SIZE (6))
+        longitude,                  // BIT STRING (SIZE (34))
+        altitudeType,               // BIT STRING (SIZE (4))
+        altitudeResolution,         // BIT STRING (SIZE (6))
+        altitude,                   // BIT STRING (SIZE (30))
+        datum,                      // BIT STRING (SIZE (8))
+    };
+
+    enum LPPeWLANInfo : uint32_t
+    {
+        bitMask = 1,
+        apMACAddress,               //apMACAddress OMA-LPPe-WLAN-AP-ID,
+        apSSID,                        //apSSID OCTET STRING (SIZE (1..32)) OPTIONAL,
+        apSignaltoNoise,                // INTEGER(-127..128) OPTIONAL,
+        apDeviceType,                 //OMA-LPPe-WLAN-AP-Type OPTIONAL,
+        apSignalStrength,               //INTEGER(-127..128) OPTIONAL,
+        apChannelFrequency,           //INTEGER(0..256) OPTIONAL,
+        ueTransmitPower,                // INTEGER(-127..128) OPTIONAL,
+        ueAntennaGain,                  // INTEGER (-127..128) OPTIONAL,
+        apTransmitPower,                // INTEGER (-127..128) OPTIONAL,
+        apAntennaGain,                  // INTEGER (-127..128) OPTIONAL,
+        ueSignaltoNoise,                // INTEGER (-127..128) OPTIONAL,
+        ueSignalStrength,               // INTEGER (-127..128) OPTIONAL,
+        apSignalStrengthDelta,         // INTEGER (0..1) OPTIONAL, -- Cond APSSDelta
+        ueSignalStrengthDelta,         // INTEGER (0..1) OPTIONAL, -- Cond UESSDelta
+        apSignaltoNoiseDelta,          // INTEGER (0..1) OPTIONAL, -- Cond APSNDelta
+        ueSignaltoNoiseDelta,          // INTEGER (0..1) OPTIONAL, -- Cond UESNDelta
+        operatingClass,                //INTEGER (0..255)
+        apPHYtype,                     //{ unknown = 1, any =2, fhss =3, dsss =4, irbaseband =5, ofdm=6, hrdsss=7, erp=8, ht=9, ihv=10, ... }
+                                        //OMA-LPPe-WLAN-AP-PHY-Type OPTIONAL,	
+        rTDValue,                      //INTEGER(0..16777215),
+        rTDUnits,                      //{ microseconds = 1, hundredsofnanoseconds = 2, tensofnanoseconds=3, nanoseconds=4, tenthsofnanoseconds=5, ¡¦ }		
+        rTDAccuracy,                   //INTEGER(0..255) 		OPTIONAL,
+
+        //LPPe_WLAN_AP_LOC apReportedLocation,	// OMA-LPPe-WLAN-ReportedLocation OPTIONAL,    
+    };
+
+   /* NLP*/
+   injectLppeServiceNLPInfo(uint16_t locationFlags, double latitudeDegrees, double longitudeDegrees, double altitudeMeters, float horizontalAccuracyMeters, float verticalAccuracyMeters, uint64_t timestamp) generates (bool success);
+   injectLppeServiceNLPError(uint8_t errorCause) generates (bool success);
+
+   /* UBP*/
+   injectLppeServiceUBPCapability(bool motionStateSupport, bool secondarySupport, bool atmosphericPressureADSupport, bool atmosphericPressureSupport) generates (bool success);
+   injectLppeServiceUBPInfo(uint8_t bitMask, uint32_t sensorMeasurement) generates (bool success);
+   injectLppeServiceUBPError(uint8_t errorCause) generates (bool success);  
+
+    /* WLAN*/
+   injectLppeServiceWLANCapability(int32_t measSupported, int32_t wlanTypesSupported, int64_t apMacAddress, int32_t apTypes, int32_t wlanApADSupported, int32_t additionalWLANMeasSupport) generates (bool success);
+   injectLppeServiceWLANInfo(int64_t[64] macAddress, int16_t[64] wifiRssi, int16_t[64] nOfChannel, uint16_t WLAN_size) generates (bool success);
+   injectLppeServiceWLANError(uint8_t errorCause) generates (bool success);
+   injectLppeServiceLPPeComIEsCapability(uint8_t ipaddr, bool asstContainer, bool locContainer, bool relavtiveLocChange, uint8_t highAccuracy, bool segAssistance, bool refPoint, bool scheduleLoc, bool access, bool segLoc) generates (bool success);
+};

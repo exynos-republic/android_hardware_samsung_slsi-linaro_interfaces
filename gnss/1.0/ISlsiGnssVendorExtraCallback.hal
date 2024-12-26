@@ -1,0 +1,16 @@
+
+package vendor.samsung.hardware.gnss@1.0;
+
+interface ISlsiGnssVendorExtraCallback {
+   /**
+    * Callback to request the client to resolve FQDN of SUPL server. The client should
+    * resolve FQDN and inject resolved IP address by calling set_supl_host_ip().
+    */
+   fqdnDnsResolveRequestCb(string fqdn);
+
+   /**
+    * Callback to send debug data to platform
+    */
+   sendDebugDataCb(uint32_t sessionId, uint32_t seqNumber, string debugData);
+};
+

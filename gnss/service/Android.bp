@@ -1,0 +1,49 @@
+my_cflags = [
+        "-DUNIX",
+        "-DLINUX",
+        "-DTM",
+        "-DUSE_FW_GZIP",
+        "-DVARIANT_NAME=VARIANT_HOST",
+        "-DTARGET_PROCESSOR=PROCESSOR_ARM",
+        "-DSIRF_HOST",
+        "-DOS_LINUX",
+        "-DOS_POSIX",
+        "-DPOSIX",
+        "-DTOOLCHAIN_GCC",
+        "-DOS_ANDROID",
+        "-DCPU_ARM",
+        "-DOSP_DEBUG",
+        "-D_ENDIAN_LITTLE",
+        "-DENABLE_LOGGING",
+        "-DENABLE_LEGACY_LOG",
+        "-DANDROIDVER=28",
+]
+
+my_v1_1_cflags = my_cflags
+my_v1_1_cflags += [
+        "-DHAL_IGNSS_V1_1",
+]
+
+cc_binary {
+    relative_install_path: "hw",
+    vendor: true,
+    name: "vendor.samsung.hardware.gnss@1.0-service",
+    defaults: ["hidl_defaults"],
+    init_rc: ["vendor.samsung.hardware.gnss@1.0-service.rc"],
+    cflags: my_v1_1_cflags,
+    srcs: ["service.cpp"],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libdl",
+        "libbase",
+        "libutils",
+        "libbinder",
+        "libhidlbase",
+        "android.hardware.gnss@1.0",
+        "android.hardware.gnss@1.1",
+        "android.hardware.gnss@2.0",
+        "android.hardware.gnss@2.1",
+        "vendor.samsung.hardware.gnss@1.0",
+    ],
+}

@@ -1,0 +1,54 @@
+/*
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package vendor.samsung.hardware.gnss@1.0;
+
+import ISlsiAGnssRil;
+import ISlsiGnssConfiguration;
+import ISlsiGnssConfigurationCallback;
+import ISlsiGnssVendorExtra;
+import ISlsiGnssLppeService;
+
+/** Extension of the standard GNSS interface. */
+interface ISlsiGnss {
+    /**
+     * This method returns the ISlsiAGnssRil interface.
+     *
+     * @return slsiAGnssRilIfaceHandle to the ISlsiAGnssRil interface.
+     */
+    getExtensionSlsiAGnssRil() generates (ISlsiAGnssRil slsiAGnssRilIface);
+
+    /**
+     * This method returns the ISlsiGnssConfiguraion interface.
+     *
+     * @return configuraionIface Handle to the ISlsiGnssConfiguraion interface.
+     */
+    getExtensionSlsiGnssConfiguration() generates (ISlsiGnssConfiguration slsiGnssConfigurationIface);
+
+   /**
+     * This method returns the ISlsiGnssVendorExtra interface.
+     *
+     * @return vendorExtraIface Handle to the ISlsiGnssVendorExtra interface.
+   */
+    getExtensionVendorExtra() generates (ISlsiGnssVendorExtra vendorExtraIface);
+
+    /**
+     * This method returns the ISlsiGnssLppeService interface.
+     *
+     * @return LppeServiceIface Handle to the ISlsiGnssLppeService interface.
+     */
+    getExtensionLppeService() generates (ISlsiGnssLppeService lppeServiceIface);
+};

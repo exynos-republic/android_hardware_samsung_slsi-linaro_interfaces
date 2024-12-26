@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The Android Open Source Project
+ * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-package vendor.samsung_slsi.hardware.ExynosA2DPOffload@2.0;
+package vendor.samsung.hardware.gnss@1.0;
 
 /**
- * BT A2DP CODEC Configurations for version 1.0
- *
- * Codec Infos are transmitted as a vector of type uint8_t.
+ * Samsung System LSI Interface for extension of AGnssRil.
  */
-typedef vec<uint8_t> CodecInfo;
-
-/**
- * BT A2DP Data for version 2.0
- */
-typedef vec<uint8_t> A2DPData;
-
-/* BT A2DP DATA for dynamic bit-rate change */
-struct DYN_Param
-{
-   uint32_t bit_rate;
-   uint32_t peer_mtu;
+interface ISlsiAGnssRil {
+    /**
+      * This method sends NI message to HAL.
+      *
+      * @param NI message, size.
+      */
+     agpsSendNiMessage(string message, uint16_t size);
 };
